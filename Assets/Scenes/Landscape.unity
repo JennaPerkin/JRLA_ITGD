@@ -707,6 +707,7 @@ MonoBehaviour:
   jumpForce: 350
   rotationSpeed: 0.1
   yVelocity: 1
+  cam: {fileID: 1074162252}
   groundCheck: {fileID: 1842523123}
   groundRadius: 0.1
   jumpLayers:

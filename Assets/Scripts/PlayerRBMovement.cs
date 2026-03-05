@@ -11,6 +11,11 @@ public class PlayerRBMovement : MonoBehaviour
     public float rotationSpeed;
     public float yVelocity;
 
+    [Header("Camera Angle Movement")]
+    private Vector3 horizontalMove;
+    private Vector3 verticalMove;
+    [SerializeField] Transform cam;
+
     [Header("GroundDetection")]
     [SerializeField] Transform groundCheck;
     [SerializeField] float groundRadius;
@@ -25,12 +30,13 @@ public class PlayerRBMovement : MonoBehaviour
         if (rb == null)
             Debug.Log("Rigidbody not assigned");
     }
-
-    // Update is called once per frame
     void Update()
     {
         //Uses Unity's axis system to assign player move direction
-        InputKey = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        //calculates Movement Direction based on Camera Rotation/Position
+        horizontalMove = Input.GetAxis("Horizontal") * cam.transform.right;
+        verticalMove = Input.GetAxis("Vertical") * new Vector3(cam.transform.forward.x, 0f, cam.transform.forward.z);
+        InputKey = horizontalMove + verticalMove;
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, jumpLayers);
         /*RaycastHit hit;
@@ -49,14 +55,15 @@ public class PlayerRBMovement : MonoBehaviour
             rb.AddForce(0, jumpForce, 0);
         }
     }
-    //Fixed update to avoid issues of player moving faster or slower on different computers
     void FixedUpdate()
     {
         //Multiplies Unity's axis system value by our move speed variable
-        rb.AddForce(InputKey * moveSpeed);
+        rb.MovePosition((Vector3)transform.position + InputKey * moveSpeed * Time.deltaTime);
 
+        //Checks if player is pressing a movement button
         if (InputKey.magnitude > 0.1f)
         {
+            //rotates the player to the direction they are moving
             float Angle = Mathf.Atan2(InputKey.x, InputKey.z) * Mathf.Rad2Deg;
             float Smooth = Mathf.SmoothDampAngle(transform.eulerAngles.y, Angle, ref yVelocity, rotationSpeed);
             transform.rotation = Quaternion.Euler(0, Smooth, 0);
