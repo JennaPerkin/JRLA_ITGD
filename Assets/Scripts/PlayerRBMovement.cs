@@ -37,19 +37,7 @@ public class PlayerRBMovement : MonoBehaviour
         horizontalMove = Input.GetAxis("Horizontal") * cam.transform.right;
         verticalMove = Input.GetAxis("Vertical") * new Vector3(cam.transform.forward.x, 0f, cam.transform.forward.z);
         InputKey = horizontalMove + verticalMove;
-
         isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, jumpLayers);
-        /*RaycastHit hit;
-
-        if (Physics.Raycast(groundCheck.position, transform.TransformDirection(Vector3.down), out hit, 1f, jumpLayers))
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }*/
-
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(0, jumpForce, 0);

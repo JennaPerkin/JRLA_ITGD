@@ -597,6 +597,7 @@ GameObject:
   - component: {fileID: 538903711}
   - component: {fileID: 538903710}
   - component: {fileID: 538903713}
+  - component: {fileID: 538903714}
   m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
@@ -710,6 +711,18 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: e98464c91d6688d45ac13684664b294f, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &538903714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538903709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 416f1516fd7805e4a85ae92d44e59bcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &601628857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,6 +1838,9 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 128
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 5
+  chaseRange: 5
 --- !u!4 &1768077290
 Transform:
   m_ObjectHideFlags: 0
@@ -1851,7 +1867,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
