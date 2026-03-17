@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyCollisionKill : MonoBehaviour
 {
     public GameObject enemy;
-    private void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.tag == "Player")
         {
