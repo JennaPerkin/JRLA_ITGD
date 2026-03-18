@@ -7,7 +7,7 @@ public class EnemyKillPlayer : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.tag == "Player")
         {
             SceneManager.LoadSceneAsync("MainMenu");
         }
