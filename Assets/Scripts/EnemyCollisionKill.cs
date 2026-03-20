@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class EnemyCollisionKill : MonoBehaviour
 {
-    public GameObject enemy;
-    void OnTriggerEnter(Collider collision)
+    //Make sure attached collider has IsTrigger Selected
+    void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.tag == "Player")
+        //Make sure player has tag Player
+        if (other.gameObject.tag == "Player")
         {
-            Destroy(enemy);
+            //Only works if killbox is attached as child of enemy
+            Destroy(transform.parent.gameObject);
         }
     }
 }
