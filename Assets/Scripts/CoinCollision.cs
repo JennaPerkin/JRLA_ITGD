@@ -10,6 +10,7 @@ public class CoinCollision : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
+            //Runs Coin Collect function in Game Manager Script
             GameManager.Instance.CoinCollect();
             Destroy(this.gameObject);
         }

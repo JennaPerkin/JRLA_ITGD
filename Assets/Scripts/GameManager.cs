@@ -16,17 +16,23 @@ public class GameManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+        CoinTextUpdate();
     } 
 
     public void CoinCollect()
     {
         CoinCount += 1;
         Debug.Log(CoinCount);
-        coinCountUI.text = CoinCount.ToString();
+        CoinTextUpdate();
 
         if(CoinCount >= 3)
         {
             SceneManager.LoadScene("MainMenu");
         }
+    }
+
+    public void CoinTextUpdate()
+    {
+        coinCountUI.text = ("Coins: " + CoinCount.ToString());
     }
 }
