@@ -7,6 +7,7 @@ public class PlayerCCMovement : MonoBehaviour
     [Header("References")]
     private CharacterController controller;
     [SerializeField] private Transform camera;
+    [SerializeField] private Animator animator;
 
     [Header("Input")]
     private float moveInput;
@@ -75,6 +76,11 @@ public class PlayerCCMovement : MonoBehaviour
             {
                 //is player jumps, jump is determined by jump height and gravity
                 verticalVelocity = Mathf.Sqrt(jumpHeight * gravity * 2);
+                animator.SetBool("isJumping", true);
+            }
+            else
+            {
+                animator.SetBool("isJumping", false);
             }
         }
         else
@@ -90,6 +96,7 @@ public class PlayerCCMovement : MonoBehaviour
         //checks if any input is pressed
         if(Mathf.Abs(turnInput) > 0 || Mathf.Abs(moveInput) > 0)
         {
+            animator.SetBool("isMoving", true);
             //gets current look direction based on current movement direction, y set to 0.
             Vector3 currentLookDirection = controller.velocity.normalized;
             currentLookDirection.y = 0;
@@ -98,6 +105,10 @@ public class PlayerCCMovement : MonoBehaviour
             //sets target rotation to current look direction, then slerps to that rotation
             Quaternion targetRotation = Quaternion.LookRotation(currentLookDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
         }
     }
 }

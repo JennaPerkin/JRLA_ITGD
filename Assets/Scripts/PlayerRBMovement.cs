@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerRBMovement : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
+
+    [Header("Movement Values")]
     [SerializeField] Rigidbody rb;
     public Vector3 InputKey;
     public float moveSpeed;
@@ -39,10 +42,15 @@ public class PlayerRBMovement : MonoBehaviour
         InputKey = horizontalMove + verticalMove;
         //Checks if player is on the ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, jumpLayers);
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             //adds force if player hits jump
             rb.AddForce(0, jumpForce, 0);
+            animator.SetBool("isJump", true);
+        }
+        else
+        {
+            animator.SetBool("isJump", false);
         }
     }
     void FixedUpdate()
@@ -53,10 +61,15 @@ public class PlayerRBMovement : MonoBehaviour
         //Checks if player is pressing a movement button
         if (InputKey.magnitude > 0.1f)
         {
+            animator.SetBool("isMoving", true);
             //rotates the player to the direction they are moving
             float Angle = Mathf.Atan2(InputKey.x, InputKey.z) * Mathf.Rad2Deg;
             float Smooth = Mathf.SmoothDampAngle(transform.eulerAngles.y, Angle, ref yVelocity, rotationSpeed);
             transform.rotation = Quaternion.Euler(0, Smooth, 0);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
         }
     }
 }
