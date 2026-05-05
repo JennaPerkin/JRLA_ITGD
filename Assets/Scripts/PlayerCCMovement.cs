@@ -7,7 +7,12 @@ public class PlayerCCMovement : MonoBehaviour
     [Header("References")]
     private CharacterController controller;
     [SerializeField] private Transform camera;
-    [SerializeField] private Animator animator;
+
+    [Header("Cam Shake")]
+    public CamShake shakingScript;
+    public float shakeDuration;
+    public float shakeIntensity;
+    //[SerializeField] private Animator animator;
 
     [Header("Input")]
     private float moveInput;
@@ -76,11 +81,13 @@ public class PlayerCCMovement : MonoBehaviour
             {
                 //is player jumps, jump is determined by jump height and gravity
                 verticalVelocity = Mathf.Sqrt(jumpHeight * gravity * 2);
-                animator.SetBool("isJumping", true);
+                shakingScript.ShakeCamera(shakeDuration, shakeIntensity);
+                Debug.Log("CamShaked");
+                //animator.SetBool("isJumping", true);
             }
             else
             {
-                animator.SetBool("isJumping", false);
+                //animator.SetBool("isJumping", false);
             }
         }
         else
@@ -96,7 +103,7 @@ public class PlayerCCMovement : MonoBehaviour
         //checks if any input is pressed
         if(Mathf.Abs(turnInput) > 0 || Mathf.Abs(moveInput) > 0)
         {
-            animator.SetBool("isMoving", true);
+            //animator.SetBool("isMoving", true);
             //gets current look direction based on current movement direction, y set to 0.
             Vector3 currentLookDirection = controller.velocity.normalized;
             currentLookDirection.y = 0;
@@ -108,7 +115,7 @@ public class PlayerCCMovement : MonoBehaviour
         }
         else
         {
-            animator.SetBool("isMoving", false);
+            //animator.SetBool("isMoving", false);
         }
     }
 }

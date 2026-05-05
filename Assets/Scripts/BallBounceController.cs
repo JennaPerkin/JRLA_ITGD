@@ -10,6 +10,12 @@ public class BallBounceController : MonoBehaviour
     [SerializeField] private AudioSource src;
     [SerializeField] private AudioClip animStart, animBounce;
     [SerializeField] private ParticleSystem burst;
+    [SerializeField] private GameObject spawnObj;
+
+    [Header("Cam Shake")]
+    public CamShake shakeScript;
+    public float shakeDuration;
+    public float shakeIntensity;
 
 
     void Update()
@@ -26,25 +32,13 @@ public class BallBounceController : MonoBehaviour
         }
     }
 
-    //Collision Sound Effect Method
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject != null)
-        {
-            Debug.Log("Hit Ground");
-            src.Play();
-        }
-        else
-        {
-            Debug.Log("Null Hit");
-        }
-    }*/
-
     //Animation Event Method
     private void PlaySound()
     {
         src.clip = animBounce;
         src.Play();
         burst.Play();
+        shakeScript.ShakeCamera(shakeDuration, shakeIntensity);
+        Instantiate(spawnObj, new Vector3(0, 15, 0), Quaternion.identity);
     }
 }
