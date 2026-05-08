@@ -12,6 +12,8 @@ public class Projectiles : MonoBehaviour
     [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
     [SerializeField] private float shootForce;
     [SerializeField] private float shootUpwardForce;
+    [SerializeField] private int shotQuantity;
+    [SerializeField] private float reloadCooldown;
     bool readyToShoot;
     // Start is called before the first frame update
     void Start()
@@ -22,7 +24,7 @@ public class Projectiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(shootKey) && readyToShoot)
+        if(Input.GetKeyDown(shootKey) && readyToShoot && shotQuantity > 0)
         {
             Shoot();
         }
@@ -33,11 +35,20 @@ public class Projectiles : MonoBehaviour
         readyToShoot = false;
         GameObject projectileRef = Instantiate(projectile, shootPoint.position, Quaternion.identity);
         Rigidbody projectileRb = projectileRef.GetComponent<Rigidbody>();
-        Vector3 forceDirection = shootPoint.transform.right;
+        Vector3 forceDirection = shootPoint.transform.forward;
         Vector3 forceToAdd = forceDirection * shootForce + transform.up * shootUpwardForce;
-        Debug.Log(forceDirection);
-        Debug.Log(forceToAdd);
-        projectileRb.AddRelativeForce(forceToAdd, ForceMode.Impulse);
+        projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
+        shotQuantity--;
         readyToShoot = true;
+
+        if (shotQuantity <= 0)
+        {
+            Invoke(nameof(Reload), reloadCooldown);
+        }
+    }
+
+    private void Reload()
+    {
+        shotQuantity = 10;
     }
 }

@@ -11,7 +11,7 @@ public class CannonBallForce : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Vector3 forceDirection = transform.right;
+        Vector3 forceDirection = transform.forward;
         Vector3 forceToAdd = forceDirection * shootForce + transform.up * shootUpwardForce;
         Debug.Log(forceDirection);
         Debug.Log(forceToAdd);
