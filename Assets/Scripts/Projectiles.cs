@@ -7,6 +7,7 @@ public class Projectiles : MonoBehaviour
     [Header("Objects")]
     [SerializeField] private Transform shootPoint;
     [SerializeField] public GameObject projectile;
+    [SerializeField] private LayerMask includeFields;
 
     [Header("Shoot Variables")]
     [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
@@ -24,13 +25,14 @@ public class Projectiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(shootKey) && readyToShoot && shotQuantity > 0)
+        Debug.DrawRay(shootPoint.position, shootPoint.up*10f, Color.green);
+        if (Input.GetKeyDown(shootKey) && readyToShoot && shotQuantity > 0)
         {
-            Shoot();
+            RaycastShoot();
         }
     }
 
-    private void Shoot()
+    private void InstantiateShoot()
     {
         readyToShoot = false;
         GameObject projectileRef = Instantiate(projectile, shootPoint.position, Quaternion.identity);
@@ -45,6 +47,24 @@ public class Projectiles : MonoBehaviour
         {
             Invoke(nameof(Reload), reloadCooldown);
         }
+    }
+
+    private void RaycastShoot()
+    {
+        readyToShoot = false;
+        RaycastHit hit;
+        if (Physics.Raycast(shootPoint.position, shootPoint.up, out hit, 500f, includeFields))
+        {
+            Debug.Log("Hit Enemy");
+            enemyHealth enemyscript = hit.transform.GetComponent<enemyHealth>();
+            enemyscript.health--;
+        }
+        else
+        {
+            Debug.Log("Did Not Hit Enemy");
+        }
+
+        readyToShoot = true;
     }
 
     private void Reload()
